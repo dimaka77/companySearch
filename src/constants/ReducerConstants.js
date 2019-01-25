@@ -1,0 +1,2 @@
+export const LOADING = 'MAIN/LOADING';
+export const SUGGESTIONS = 'MAIN/SUGGESTIONS';
