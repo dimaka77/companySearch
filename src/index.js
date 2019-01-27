@@ -9,8 +9,10 @@ import './index.css';
 import App from './components/containers/App';
 import * as serviceWorker from './serviceWorker';
 
+const { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ } = window;
 const middleware = [thunk, promise];
-const store = createStore(reducer, compose(applyMiddleware(...middleware)));
+const composeEnhancers = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
 
 ReactDOM.render(
     <Provider store={store}>

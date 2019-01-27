@@ -1,4 +1,5 @@
 import * as CONSTS from '../constants/ReducerConstants';
+import * as ACTIONTYPES from '../constants/ActionConstants';
 import { fromJS } from 'immutable';
 
 export const INITIAL_STATE = {
@@ -40,8 +41,18 @@ export const INITIAL_STATE = {
     ]
 };
 
+const setCompanyData = (state, payload) => {
+	console.log('TCL: setCompanyData -> payload', payload)
+
+    return state;
+}
+
 export default function(state = fromJS(INITIAL_STATE), action) {
+    const { payload = {} } = action;
+
     switch (action.type) {
+        case ACTIONTYPES.FETCH_COMPANY_DATA:
+            return setCompanyData(state, payload);
         default:
             return state;
     }

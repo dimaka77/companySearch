@@ -7,6 +7,32 @@
 
 
 
+Minimum Requirements
+    ● The user should be able to specify a query for any well-known company
+    ● Results come from at least 2 different third-party APIs
+    ● API calls are parallelized
+    ● Results are shown to the user as they come back from the APIs
+Guidelines
+    ● Use a modern JS framework
+    ● Include a README with instructions for running it locally
+    ● Given the choice between basic-and-working vs. fancy-but-broken, go with the former
+    ● Bootstrap-level visual treatment is sufficient
+    ● A node.js server is allowed but not required, browser-only libraries are sufficient
+Suggested browser-side APIs
+    ● Github (​https://github.com/github-tools/github​)
+    ● LinkedIn (​https://developer.linkedin.com/docs/getting-started-js-sdk​)
+    ● Wikipedia (​https://github.com/okfn/wikipediajs​)
+    ● DuckDuckGo (​https://duckduckgo.com/api​)
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

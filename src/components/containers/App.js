@@ -3,17 +3,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import Autosuggest from '../smart/Autosuggest';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import * as CONSTS from '../../constants/ReducerConstants';
+import * as ACTIONS from '../../action_creators/Main';
 
 const styles = theme => ({
-	root: theme.mixins.gutters({
-		paddingTop: 16,
-		paddingBottom: 16,
-		marginTop: theme.spacing.unit * 3
-	}),
+	input: {
+		marginLeft: 8,
+		flex: 1,
+	},
+	margin: {
+		margin: theme.spacing.unit
+	}
 });
 
 class App extends Component {
@@ -24,16 +32,24 @@ class App extends Component {
 	}
 	
 	render() {
-		const { classes, suggestions } = this.props;
+		const { classes, suggestions, MainActions } = this.props;
 
+		MainActions.fetch();
 		return (
 			<div className="App">
+				<Typography variant="headline" component="h3">
+					Company search
+				</Typography>
 				<Paper className={classes.root} elevation={4}>
-					<Typography variant="headline" component="h3">
-						Company search
-					</Typography>
-					<Autosuggest suggestions={suggestions.toJS()} />
+					<InputBase className={classes.input} placeholder="Search Company" />
+					<Divider className={classes.divider} />
+					<IconButton className={classes.iconButton} aria-label="Search">
+						<SearchIcon />
+					</IconButton>
 				</Paper>
+				<Button variant="contained" size="large" color="primary" className={classes.margin}>
+					Search
+				</Button>
 			</div>
 		);
 	}
@@ -47,7 +63,8 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return {};
+	return {
+		MainActions: bindActionCreators(ACTIONS, dispatch)
+	};
 }
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
-
