@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as ACTIONTYPES from '../constants/ActionConstants';
 
+
+
 /**
  * Search organization data in Github
  * @param {String} companyName comapny name
@@ -8,23 +10,44 @@ import * as ACTIONTYPES from '../constants/ActionConstants';
 export function getCompanyGithubData(companyName = '') {
     const request = axios.get(`https://api.github.com/orgs/${companyName}`);
 
-    return request
+    return dispatch => request
         .then(({ data })=> data)
-        .catch(err => ({
-            type: ACTIONTYPES.FETCH_COMPANY_GITHUB_DATA_FAIL,
-            payload: err
-        }));
+        .catch(err => {
+            dispatch({
+                type: ACTIONTYPES.FETCH_COMPANY_GITHUB_DATA_FAIL,
+                payload: err
+            });
+            return null;
+        });
 }
 
 export function getCompanyWikiData(companyName = '') {
     const request = axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${companyName}`);
 
-    return request
+    return dispatch => request
         .then(({ data }) => data)
-        .catch(err => ({
-            type: ACTIONTYPES.FETCH_COMPANY_WIKI_DATA_FAIL,
-            payload: err
-        }));
+        .catch(err => {
+            dispatch({
+                type: ACTIONTYPES.FETCH_COMPANY_WIKI_DATA_FAIL,
+                payload: err
+            });
+            return null;
+        });
+}
+
+export function getCompanyDuckDuckGoData(companyName = '') {
+    // https://api.duckduckgo.com/?q=DuckDuckGo&format=json&pretty=1
+    const request = axios.get(`https://api.duckduckgo.com/?q=${companyName}&format=json`);
+
+    return dispatch => request
+        .then(({ data }) => data)
+        .catch(err => {
+            dispatch({
+                type: ACTIONTYPES.FETCH_COMPANY_DUCKDUCKGO_DATA_FAIL,
+                payload: err
+            });
+            return null;
+        });
 }
 
 /**
@@ -35,15 +58,19 @@ export function getCompanyWikiData(companyName = '') {
 export function getCompanyRepositories(companyName = '') {
     const request = axios.get(`https://api.github.com/orgs/${companyName}/repos`);
 
-    return request
+    return dispatch => request
         .then(({ data }) => data)
-        .catch(err => ({
-            type: ACTIONTYPES.FETCH_COMPANY_REPO_DATA_FAIL,
-            payload: err
-        }));
+        .catch(err => {
+            dispatch({
+                type: ACTIONTYPES.FETCH_COMPANY_REPO_DATA_FAIL,
+                payload: err
+            });
+            return null;
+        })
 }
 
 function processPayload([wikiData, githubData, githubRepos]) {
+
     return {
         wikiData,
         githubData,
@@ -51,24 +78,38 @@ function processPayload([wikiData, githubData, githubRepos]) {
     }
 }
 
-export function fetch(companyName = 'google') {
+function setLoading(loading = true) {
+    return {
+        type: ACTIONTYPES.SET_LOADING,
+        params: loading
+    };
+}
+
+export function fetch(companyName = '') {
     return (dispatch) => {
+        dispatch(setLoading(true));
+
         const requests = [
-            getCompanyWikiData(companyName),
-            getCompanyGithubData(companyName),
-            getCompanyRepositories(companyName)
+            dispatch(getCompanyWikiData(companyName)),
+            dispatch(getCompanyGithubData(companyName)),
+            dispatch(getCompanyRepositories(companyName))
         ];
         return Promise.all(requests)
             .then(([wikiData, githubData, githubRepos]) => {
                 const payload = processPayload([wikiData, githubData, githubRepos]);
-                return dispatch({
+
+                dispatch(setLoading(false));
+                dispatch({
                     type: ACTIONTYPES.FETCH_COMPANY_DATA,
                     payload
                 })
             })
-            .catch(err => dispatch({
-                type: ACTIONTYPES.FETCH_COMPANY_DATA_FAIL,
-                payload: err
-            }));
+            .catch(err => {
+                dispatch(setLoading(false));
+                dispatch({
+                    error: err,
+                    type: ACTIONTYPES.FETCH_COMPANY_DATA_FAIL
+                })
+            });
     }
 }
