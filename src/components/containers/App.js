@@ -62,8 +62,12 @@ const styles = theme => ({
 		width: '100%',
 		margin: '20px 0'
 	},
-	progress: {
-		margin: theme.spacing.unit * 2
+	progressCircle: {
+		margin: theme.spacing.unit * 2,
+		textAlign: 'center'
+	},
+	progressCircleColor: {
+		color: '#000'
 	},
 	inputRoot: {
 		padding: '2px 4px',
@@ -122,7 +126,11 @@ class App extends Component {
 			props: { MainActions }
 		} = this;
 
-		MainActions.fetch(searchValue);
+		MainActions.fetch(searchValue)
+			.then(() => this.setState({
+				searchValue: ''
+			})
+		);
 	}
 
 	handleTabChange = (event, value) => {
@@ -145,7 +153,7 @@ class App extends Component {
 							<Avatar
 								alt="company-image"
 								classes={{ root: classes.avatar, img: classes.avatarImg }}
-								src={companyData.getIn(['data', 'logo']) || ''}
+								src={companyData.getIn(['data', 'source']) || ''}
 							/>
 							<div className={classes.cardTextBlock}>
 								<Typography component="h5" variant="h5">
@@ -213,7 +221,7 @@ class App extends Component {
 										{`Email: ${tabData.get('email')}`}
 									</div>
 									<div>URL:&nbsp;
-										<a href={tabData.get('url')} target="_blank" rel="noopener noreferrer">{tabData.get('url')}</a>
+										<a href={tabData.get('html_url')} target="_blank" rel="noopener noreferrer">{tabData.get('url')}</a>
 									</div>
 								</section>
 							)
@@ -230,7 +238,7 @@ class App extends Component {
 													src={companyData.getIn(['data', 'githubData', 'avatar_url']) || ''}
 												/>
 												<ListItemText>
-													<div><a href={item.get('url')} target="_blank" rel="noopener noreferrer">{item.get('url')}</a></div>
+													<div><a href={item.get('html_url')} target="_blank" rel="noopener noreferrer">{item.get('url')}</a></div>
 													<Fragment>
 														<Chip label={`watchers: ${item.get('watchers_count')}`} className={classes.chip} />
 														<Chip label={`stargazers: ${item.get('stargazers_count')}`} className={classes.chip} />
@@ -285,8 +293,8 @@ class App extends Component {
 						<SearchIcon />
 					</IconButton>
 				</Paper>
-				{loading && <div>
-					<CircularProgress className={classes.progress} />
+				{loading && <div className={classes.progressCircle}> 
+					<CircularProgress classes={{ colorPrimary: classes.progressCircleColor }}/>
 				</div>}
 				{!loading && <Paper className={classes.mediaCard} elevation={1}>
 					{renderMediaCard()}

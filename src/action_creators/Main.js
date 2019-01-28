@@ -81,12 +81,12 @@ export function getCompanyRepositories(companyName = '') {
 
 function processPayload(data = {}) {
     const { wikiData: {
-        thumbnail = {},
+        thumbnail: { source = '' },
         title = '',
         description = ''
     } } = data;
     const newData = {
-        logo: thumbnail.source || '',
+        source,
         title,
         description,
         ...data
