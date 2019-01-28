@@ -69,12 +69,10 @@ export function getCompanyRepositories(companyName = '') {
         })
 }
 
-function processPayload([wikiData, githubData, githubRepos]) {
-
+function processPayload(data = {}) {
     return {
-        wikiData,
-        githubData,
-        githubRepos
+        list: Object.keys(data).filter(i => data[i] !== null),
+        data
     }
 }
 
@@ -96,7 +94,7 @@ export function fetch(companyName = '') {
         ];
         return Promise.all(requests)
             .then(([wikiData, githubData, githubRepos]) => {
-                const payload = processPayload([wikiData, githubData, githubRepos]);
+                const payload = processPayload({wikiData, githubData, githubRepos});
 
                 dispatch(setLoading(false));
                 dispatch({
