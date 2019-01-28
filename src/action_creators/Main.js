@@ -80,15 +80,12 @@ export function getCompanyRepositories(companyName = '') {
 }
 
 function processPayload(data = {}) {
-    const { wikiData: {
-        thumbnail: { source = '' },
-        title = '',
-        description = ''
-    } } = data;
+    const { wikiData } = data;
+
     const newData = {
-        source,
-        title,
-        description,
+        source: (wikiData && wikiData.thumbnail.source) || '',
+        title: (wikiData && wikiData.title) || '',
+        description: (wikiData && wikiData.description) || '',
         ...data
     }
     return {

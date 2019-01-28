@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
+import { EmptyPage } from '../dumb';
+
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
@@ -109,6 +111,7 @@ class App extends Component {
 		super(props);
 
 		this.state = {
+			initialLoad: true,
 			activeTab: 0,
 			searchValue: ''
 		}
@@ -128,7 +131,9 @@ class App extends Component {
 
 		MainActions.fetch(searchValue)
 			.then(() => this.setState({
-				searchValue: ''
+				initialLoad: false,
+				searchValue: '',
+				activeTab: 0
 			})
 		);
 	}
@@ -170,6 +175,94 @@ class App extends Component {
 		)
 	}
 
+	renderWikiSection = (tabData = {}) => {
+		const { classes } = this.props;
+
+		return (
+			<section
+				className={classes.tabSection}
+				key={tabData.get('pageid')}
+			>
+				<div dangerouslySetInnerHTML={{
+					__html: tabData.get('extract_html')
+				}} />
+			</section>
+		)
+	}
+
+	renderGithubSection = (tabData = {}) => {
+		const { classes } = this.props;
+
+		return (
+			<section
+				className={classes.tabSection}
+				key={tabData.get('id')}
+			>
+				<div>
+					<Avatar
+						alt="github-image"
+						classes={{ root: classes.avatar, img: classes.avatarImg }}
+						src={tabData.get('avatar_url') || ''}
+					/>
+				</div>
+				<div>{`Description: ${tabData.get('description')}`}</div>
+				<div>{`Email: ${tabData.get('email')}`}</div>
+				<div>URL:&nbsp;
+					<a
+						href={tabData.get('html_url')}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+					{tabData.get('url')}
+					</a>
+				</div>
+			</section>
+		);
+	}
+
+	renderGithubRepoSection = (tabData = {}, tab = 'githubRepos') => {
+		const { classes, companyData } = this.props;
+
+		return (
+			<section
+				className={classes.tabSection}
+				key={tab}
+			>
+				<List className={classes.root}>
+					{tabData.map(item => {
+						return (
+							<ListItem key={item.get('id')}>
+								<Avatar
+									alt="github-image"
+									classes={{ root: classes.avatar, img: classes.avatarImg }}
+									src={companyData.getIn(['data', 'githubData', 'avatar_url']) || ''}
+								/>
+								<ListItemText>
+									<div><a href={item.get('html_url')} target="_blank" rel="noopener noreferrer">{item.get('url')}</a></div>
+									<Fragment>
+										<Chip
+											label={`watchers: ${item.get('watchers_count')}`}
+											className={classes.chip}
+										/>
+										<Chip
+											label={`stargazers: ${item.get('stargazers_count')}`}
+											className={classes.chip}
+										/>
+										<Chip
+											label={`open issues: ${item.get('open_issues_count')}`}
+											className={classes.chip}
+										/>
+									</Fragment>
+								</ListItemText>
+							</ListItem>
+						)
+					})
+					}
+				</List>
+			</section>
+		)
+	}
+
 	renderTabs = () => {
 		const {
 			state: { activeTab },
@@ -197,65 +290,24 @@ class App extends Component {
 						const tabData = companyData.getIn(['data', tab]);
 
 						if (activeTab === key && tab === 'wikiData') {
-							return (
-								<section className={classes.tabSection} key={key}>
-									<div dangerouslySetInnerHTML={{
-										__html: tabData.get('extract_html')
-									}} />
-								</section>
-							)
+							return this.renderWikiSection(tabData)
 						} else if (activeTab === key && tab === 'githubData') {
-							return (
-								<section className={classes.tabSection} key={key}>
-									<div>
-										<Avatar
-											alt="github-image"
-											classes={{ root: classes.avatar, img: classes.avatarImg }}
-											src={tabData.get('avatar_url') || ''}
-										/>
-									</div>
-									<div>
-										{`Description: ${tabData.get('description')}`}
-									</div>
-									<div>
-										{`Email: ${tabData.get('email')}`}
-									</div>
-									<div>URL:&nbsp;
-										<a href={tabData.get('html_url')} target="_blank" rel="noopener noreferrer">{tabData.get('url')}</a>
-									</div>
-								</section>
-							)
+							return this.renderGithubSection(tabData);
 						} else if (activeTab === key && tab === 'githubRepos') {
-							return (
-								<section className={classes.tabSection} key={key}>
-									<List className={classes.root}>
-										{tabData.map(item => {
-										return (
-											<ListItem key={item.get('id')}>
-												<Avatar
-													alt="github-image"
-													classes={{ root: classes.avatar, img: classes.avatarImg }}
-													src={companyData.getIn(['data', 'githubData', 'avatar_url']) || ''}
-												/>
-												<ListItemText>
-													<div><a href={item.get('html_url')} target="_blank" rel="noopener noreferrer">{item.get('url')}</a></div>
-													<Fragment>
-														<Chip label={`watchers: ${item.get('watchers_count')}`} className={classes.chip} />
-														<Chip label={`stargazers: ${item.get('stargazers_count')}`} className={classes.chip} />
-														<Chip label={`open issues: ${item.get('open_issues_count')}`} className={classes.chip} />
-													</Fragment>
-												</ListItemText>
-											</ListItem>
-										)})
-									}
-									</List>
-								</section>
-							)
+							return this.renderGithubRepoSection(tabData, tab);
 						}
 					})
 				}
 			</div>
 		)
+	}
+
+	renderEmptyPage = () => {
+		const { initialLoad } = this.state;
+		const text = initialLoad ? 'Let\'s find a company!' : 'No results :( Please try again.';
+		return (
+			<EmptyPage text={text} type={initialLoad} />
+		);
 	}
 
 	render() {
@@ -293,7 +345,7 @@ class App extends Component {
 						<SearchIcon />
 					</IconButton>
 				</Paper>
-				{loading && <div className={classes.progressCircle}> 
+				{loading && <div className={classes.progressCircle}>
 					<CircularProgress classes={{ colorPrimary: classes.progressCircleColor }}/>
 				</div>}
 				{!loading && <Paper className={classes.mediaCard} elevation={1}>
@@ -302,6 +354,11 @@ class App extends Component {
 				{!loading && <Paper elevation={0}>
 					{companyData.get('list').size ? renderTabs() : null}
 				</Paper>}
+				{!loading && !companyData.get('list').size &&
+					<Paper elevation={0}>
+						{this.renderEmptyPage()}
+					</Paper>
+				}
 			</div>
 		);
 	}
