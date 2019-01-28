@@ -3,7 +3,10 @@ import * as ACTIONTYPES from '../constants/ActionConstants';
 import { fromJS } from 'immutable';
 
 export const INITIAL_STATE = {
-    [CONSTS.COMPANY_DATA]: {},
+    [CONSTS.COMPANY_DATA]: {
+        list: [],
+        data: {}
+    },
     [CONSTS.LOADING]: false
 };
 

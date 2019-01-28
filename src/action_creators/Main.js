@@ -1,6 +1,16 @@
 import axios from 'axios';
+import { setupCache } from 'axios-cache-adapter'
 import * as ACTIONTYPES from '../constants/ActionConstants';
 
+// Create `axios-cache-adapter` instance
+const cache = setupCache({
+    maxAge: 15 * 60 * 1000
+});
+
+// Create `axios` instance passing the newly created `cache.adapter`
+const api = axios.create({
+    adapter: cache.adapter
+})
 
 
 /**
@@ -8,7 +18,7 @@ import * as ACTIONTYPES from '../constants/ActionConstants';
  * @param {String} companyName comapny name
  */
 export function getCompanyGithubData(companyName = '') {
-    const request = axios.get(`https://api.github.com/orgs/${companyName}`);
+    const request = api.get(`https://api.github.com/orgs/${companyName}`);
 
     return dispatch => request
         .then(({ data })=> data)
@@ -22,7 +32,7 @@ export function getCompanyGithubData(companyName = '') {
 }
 
 export function getCompanyWikiData(companyName = '') {
-    const request = axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${companyName}`);
+    const request = api.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${companyName}`);
 
     return dispatch => request
         .then(({ data }) => data)
@@ -37,7 +47,7 @@ export function getCompanyWikiData(companyName = '') {
 
 export function getCompanyDuckDuckGoData(companyName = '') {
     // https://api.duckduckgo.com/?q=DuckDuckGo&format=json&pretty=1
-    const request = axios.get(`https://api.duckduckgo.com/?q=${companyName}&format=json`);
+    const request = api.get(`https://api.duckduckgo.com/?q=${companyName}&format=json`);
 
     return dispatch => request
         .then(({ data }) => data)
@@ -56,7 +66,7 @@ export function getCompanyDuckDuckGoData(companyName = '') {
  * @param {String} companyName comapny name
  */
 export function getCompanyRepositories(companyName = '') {
-    const request = axios.get(`https://api.github.com/orgs/${companyName}/repos`);
+    const request = api.get(`https://api.github.com/orgs/${companyName}/repos`);
 
     return dispatch => request
         .then(({ data }) => data)
@@ -70,9 +80,20 @@ export function getCompanyRepositories(companyName = '') {
 }
 
 function processPayload(data = {}) {
+    const { wikiData: {
+        thumbnail = {},
+        title = '',
+        description = ''
+    } } = data;
+    const newData = {
+        logo: thumbnail.source || '',
+        title,
+        description,
+        ...data
+    }
     return {
         list: Object.keys(data).filter(i => data[i] !== null),
-        data
+        data: newData
     }
 }
 
@@ -96,18 +117,18 @@ export function fetch(companyName = '') {
             .then(([wikiData, githubData, githubRepos]) => {
                 const payload = processPayload({wikiData, githubData, githubRepos});
 
-                dispatch(setLoading(false));
                 dispatch({
                     type: ACTIONTYPES.FETCH_COMPANY_DATA,
                     payload
-                })
+                });
+                dispatch(setLoading(false));
             })
             .catch(err => {
-                dispatch(setLoading(false));
                 dispatch({
-                    error: err,
+                    payload: err,
                     type: ACTIONTYPES.FETCH_COMPANY_DATA_FAIL
-                })
+                });
+                dispatch(setLoading(false));
             });
     }
 }
