@@ -83,7 +83,7 @@ function processPayload(data = {}) {
     const { wikiData } = data;
 
     const newData = {
-        source: (wikiData && wikiData.thumbnail.source) || '',
+        source: (wikiData && wikiData.thumbnail && wikiData.thumbnail.source) || '',
         title: (wikiData && wikiData.title) || '',
         description: (wikiData && wikiData.description) || '',
         ...data
