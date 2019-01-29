@@ -22,9 +22,9 @@ const style = {
 };
 
 const EmptyPage = (props) => {
-	const { text, type, classes } = props;
+	const { text, initialLoad, classes } = props;
 	const components = { empty: ImageEmptyState, noResults: ImageNoResults };
-	const View = type === 'new' ? components.empty : components.noResults;
+	const View = initialLoad ? components.empty : components.noResults;
 
 	return (
 		<div style={style.container}>
@@ -37,13 +37,13 @@ const EmptyPage = (props) => {
 EmptyPage.defaultProps = {
 	classes: {},
 	text: '',
-	type: ''
+	initialLoad: true
 };
 
 EmptyPage.propTypes = {
 	classes: PropTypes.object,
 	text: PropTypes.string,
-	type: PropTypes.string
+	initialLoad: PropTypes.bool
 };
 
 export default withStyles(style)(EmptyPage);

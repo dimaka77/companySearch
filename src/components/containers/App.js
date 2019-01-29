@@ -117,10 +117,24 @@ class App extends Component {
 		}
 	}
 
+	componentDidMount() {
+		document.addEventListener('keyup', this.attachKeyBoardListener, true);
+	}
+
+	componentWillMount() {
+		document.removeEventListener('keyup', this.attachKeyBoardListener, true);
+	}
+
 	handleInputChange = ({ target: { value } }) => {
 		this.setState({
 			searchValue: value
 		});
+	}
+
+	attachKeyBoardListener = ({ key }) => {
+		if (key === 'Enter') {
+			this.handleSearch();
+		}
 	}
 
 	handleSearch = () => {
