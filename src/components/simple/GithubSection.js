@@ -1,6 +1,3 @@
-
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -45,17 +42,19 @@ const GithubSection = (props) => {
                     src={src}
                 />
             </div>
-            <div>{`Description: ${description}`}</div>
-            <div>{`Email: ${email}`}</div>
-            <div>URL:&nbsp;
-					<a
-                    href={htmlUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {htmlUrl}
-                </a>
-            </div>
+            {description.length &&
+                <div>{`Description: ${description}`}</div>
+            }
+            {email.length &&
+                <div>{`Email: ${email}`}</div>
+            }
+            {htmlUrl.length &&
+                <div>URL:&nbsp;
+					<a href={htmlUrl} target="_blank" rel="noopener noreferrer">
+                        {htmlUrl}
+                    </a>
+                </div>
+            }
         </section>
     )
 }

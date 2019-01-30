@@ -9,21 +9,8 @@ exports[`renders GithubSection component correctly 1`] = `
       className="MuiAvatar-root-4 GithubSection-avatar-1 MuiAvatar-colorDefault-5"
     />
   </div>
-  <div>
-    Description: 
-  </div>
-  <div>
-    Email: 
-  </div>
-  <div>
-    URL: 
-    <a
-      href=""
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      
-    </a>
-  </div>
+  0
+  0
+  0
 </section>
 `;

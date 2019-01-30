@@ -23,7 +23,10 @@ const style = {
 
 const EmptyPage = (props) => {
 	const { text, initialLoad, classes } = props;
-	const components = { empty: ImageEmptyState, noResults: ImageNoResults };
+	const components = {
+		empty: ImageEmptyState,
+		noResults: ImageNoResults
+	};
 	const View = initialLoad ? components.empty : components.noResults;
 
 	return (

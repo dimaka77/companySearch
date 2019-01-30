@@ -1,18 +1,15 @@
-
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = () => ({
     tabSection: {
         padding: '0 15px',
         position: 'relative',
         top: '60px',
         fontSize: '14px',
         fontWeight: 500
-    },
+    }
 });
 const WikiSection = (props) => {
     const {
@@ -25,11 +22,9 @@ const WikiSection = (props) => {
             className={classes.tabSection}
             key={key}
         >
-            <div dangerouslySetInnerHTML={{
-                __html: html
-            }} />
+            <div dangerouslySetInnerHTML={{ __html: html }} />
         </section>
-    )
+    );
 }
 WikiSection.defaultProps = {
     classes: {},

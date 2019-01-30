@@ -68,7 +68,7 @@ const SearchInput = (props) => {
     )
 }
 SearchInput.defaultProps = {
-    placeholder: "Search Company",
+    placeholder: "Enter company name...",
     classes: {},
     error: false,
     handleInputChange: () => {},

@@ -31,7 +31,7 @@ exports[`renders App component correctly 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
-        placeholder="Search Company"
+        placeholder="Enter company name..."
         type="text"
         value=""
       />

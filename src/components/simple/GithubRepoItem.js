@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
