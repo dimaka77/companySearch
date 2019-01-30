@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders App component correctly 1`] = `
 <div
-  className="Connect-App--mainContainer-125"
+  className="Connect-App--mainContainer-1"
 >
   <h3
-    className="MuiTypography-root-132 MuiTypography-headline-137 MuiTypography-gutterBottom-159 MuiTypography-alignCenter-155"
+    className="MuiTypography-root-8 MuiTypography-headline-13 MuiTypography-gutterBottom-35 MuiTypography-alignCenter-31"
   >
     Company search
   </h3>
   <div
-    className="MuiPaper-root-172 MuiPaper-elevation4-178 MuiPaper-rounded-173"
+    className="MuiPaper-root-48 MuiPaper-elevation4-54 MuiPaper-rounded-49"
     style={
       Object {
         "alignItems": "center",
@@ -22,12 +22,12 @@ exports[`renders correctly 1`] = `
     }
   >
     <div
-      className="MuiInputBase-root-199 SearchInput-input-169"
+      className="MuiInputBase-root-75 SearchInput-input-45"
       onClick={[Function]}
     >
       <input
         autoFocus={true}
-        className="MuiInputBase-input-209"
+        className="MuiInputBase-input-85"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -37,11 +37,11 @@ exports[`renders correctly 1`] = `
       />
     </div>
     <hr
-      className="MuiDivider-root-216 SearchInput-divider-170"
+      className="MuiDivider-root-92 SearchInput-divider-46"
     />
     <button
       aria-label="Search"
-      className="MuiButtonBase-root-227 MuiIconButton-root-221"
+      className="MuiButtonBase-root-103 MuiIconButton-root-97"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -59,11 +59,11 @@ exports[`renders correctly 1`] = `
       type="button"
     >
       <span
-        className="MuiIconButton-label-226"
+        className="MuiIconButton-label-102"
       >
         <svg
           aria-hidden="true"
-          className="MuiSvgIcon-root-230"
+          className="MuiSvgIcon-root-106"
           focusable="false"
           role="presentation"
           viewBox="0 0 24 24"
@@ -78,12 +78,12 @@ exports[`renders correctly 1`] = `
         </svg>
       </span>
       <span
-        className="MuiTouchRipple-root-242"
+        className="MuiTouchRipple-root-118"
       />
     </button>
   </div>
   <div
-    className="MuiPaper-root-172 MuiPaper-elevation0-174 MuiPaper-rounded-173"
+    className="MuiPaper-root-48 MuiPaper-elevation0-50 MuiPaper-rounded-49"
   >
     <div
       style={
@@ -94,7 +94,7 @@ exports[`renders correctly 1`] = `
       }
     >
       <p
-        className="MuiTypography-root-132 EmptyPage-text-241 MuiTypography-body1-141 MuiTypography-alignCenter-155"
+        className="MuiTypography-root-8 EmptyPage-text-117 MuiTypography-body1-17 MuiTypography-alignCenter-31"
       >
         Let's find a company!
       </p>

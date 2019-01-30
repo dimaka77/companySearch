@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders MediaCard component correctly 1`] = `
+<div
+  className="MuiPaper-root-8 MuiPaper-elevation1-11 MuiPaper-rounded-9 MuiCard-root-7 MediaCard-card-3"
+>
+  <div
+    className="MediaCard-details-4"
+  >
+    <div
+      className="MuiCardContent-root-35"
+    >
+      <div
+        className="MuiAvatar-root-36 MediaCard-avatar-1 MuiAvatar-colorDefault-37"
+      />
+      <div
+        className="MediaCard-cardTextBlock-6"
+      >
+        <h5
+          className="MuiTypography-root-39 MuiTypography-h5-55"
+        >
+          
+        </h5>
+        <h6
+          className="MuiTypography-root-39 MuiTypography-subtitle1-57 MuiTypography-colorTextSecondary-72"
+        >
+          
+        </h6>
+      </div>
+    </div>
+  </div>
+</div>
+`;

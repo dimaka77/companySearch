@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders GithubSection component correctly 1`] = `
+<section
+  className="GithubSection-tabSection-3"
+>
+  <div>
+    <div
+      className="MuiAvatar-root-4 GithubSection-avatar-1 MuiAvatar-colorDefault-5"
+    />
+  </div>
+  <div>
+    Description: 
+  </div>
+  <div>
+    Email: 
+  </div>
+  <div>
+    URL: 
+    <a
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      
+    </a>
+  </div>
+</section>
+`;

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders WikiSection component correctly 1`] = `
+<section
+  className="WikiSection-tabSection-1"
+>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "",
+      }
+    }
+  />
+</section>
+`;
