@@ -41,7 +41,8 @@ class App extends Component {
 		this.state = {
 			initialLoad: true,
 			activeTab: 0,
-			searchValue: ''
+			searchValue: '',
+			inputTouched: false
 		}
 	}
 
@@ -60,7 +61,8 @@ class App extends Component {
 	 */
 	handleInputChange = ({ target: { value } }) => {
 		this.setState({
-			searchValue: value
+			searchValue: value,
+			inputTouched: true
 		});
 	}
 
@@ -85,9 +87,16 @@ class App extends Component {
 			props: { MainActions }
 		} = this;
 
+		this.setState({ inputTouched: true });
+
+		if (!searchValue.length) {
+			return false;
+		}
+
 		MainActions.fetch(searchValue)
 			.then(() => this.setState({
 				initialLoad: false,
+				inputTouched: false,
 				searchValue: '',
 				activeTab: 0
 			})
@@ -285,7 +294,7 @@ class App extends Component {
 	render() {
 		const {
 			props: { classes, loading, companyData },
-			state: { searchValue }
+			state: { searchValue, inputTouched }
 		} = this;
 
 		return (
@@ -299,6 +308,7 @@ class App extends Component {
 					Company search
 				</Typography>
 				<SearchInput
+					error={inputTouched && !searchValue.length}
 					handleInputChange={this.handleInputChange}
 					handleSearchClick={this.handleSearch}
 					value={searchValue}
