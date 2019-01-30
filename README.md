@@ -17,7 +17,7 @@ By [Dmitriy Romanenko](mailto:dimaka77@gmail.com)
 4. Run tests using `yarn test`
 5. Run test coverage `yarn test -- --coverage`
 6. Start your server using `yarn start`
-7. Navigate to app in [browser](http://localhost:3000)
+7. Navigate to app in [browser@localhost:3000](http://localhost:3000)
 8. Enjoy!
 
 

@@ -2,25 +2,24 @@ import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import * as ACTIONTYPES from '../constants/ActionConstants';
 
-// Create `axios-cache-adapter` instance
 const cache = setupCache({
     maxAge: 15 * 60 * 1000
 });
 
-// Create `axios` instance passing the newly created `cache.adapter`
 const api = axios.create({
     adapter: cache.adapter
-})
+});
 
 /**
  * Search organization data in Github
- * @param {String} companyName comapny name
+ * @param {String} companyName company name
+ * @returns {Object} payload
  */
-export function getCompanyGithubData(companyName = '') {
+function getCompanyGithubData(companyName = '') {
     const request = api.get(`https://api.github.com/orgs/${companyName}`);
 
     return dispatch => request
-        .then(({ data })=> data)
+        .then(({ data }) => data)
         .catch(err => {
             dispatch({
                 type: ACTIONTYPES.FETCH_COMPANY_GITHUB_DATA_FAIL,
@@ -30,7 +29,12 @@ export function getCompanyGithubData(companyName = '') {
         });
 }
 
-export function getCompanyWikiData(companyName = '') {
+/**
+ * Search organization data in Wikipedia
+ * @param {String} companyName company name
+ * @returns {Object} payload
+ */
+function getCompanyWikiData(companyName = '') {
     const request = api.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${companyName}`);
 
     return dispatch => request
@@ -46,10 +50,10 @@ export function getCompanyWikiData(companyName = '') {
 
 /**
  * Search organization repositories
- * "organization_repositories_url": "https://api.github.com/orgs/{org}/repos{?type,page,per_page,sort}",
- * @param {String} companyName comapny name
+ * @param {String} companyName company name
+ * @returns {Object} payload
  */
-export function getCompanyRepositories(companyName = '') {
+function getCompanyRepositories(companyName = '') {
     const request = api.get(`https://api.github.com/orgs/${companyName}/repos`);
 
     return dispatch => request
@@ -63,6 +67,11 @@ export function getCompanyRepositories(companyName = '') {
         })
 }
 
+/**
+ * Normalize API response
+ * @param {Object} data payload object
+ * @returns {Object} normalized object {data: {}, list: []}
+ */
 function processPayload(data = {}) {
     const { wikiData } = data;
 
@@ -85,8 +94,13 @@ function setLoading(loading = true) {
     };
 }
 
+/**
+ * Handle main search execution
+ * @param {String} companyName company name
+ * @returns {Object} payload
+ */
 export function fetch(companyName = '') {
-    return (dispatch) => {
+    return dispatch => {
         dispatch(setLoading(true));
 
         const requests = [
