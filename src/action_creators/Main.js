@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setupCache } from 'axios-cache-adapter'
+import { setupCache } from 'axios-cache-adapter';
 import * as ACTIONTYPES from '../constants/ActionConstants';
 
 // Create `axios-cache-adapter` instance
@@ -11,7 +11,6 @@ const cache = setupCache({
 const api = axios.create({
     adapter: cache.adapter
 })
-
 
 /**
  * Search organization data in Github
@@ -39,21 +38,6 @@ export function getCompanyWikiData(companyName = '') {
         .catch(err => {
             dispatch({
                 type: ACTIONTYPES.FETCH_COMPANY_WIKI_DATA_FAIL,
-                payload: err
-            });
-            return null;
-        });
-}
-
-export function getCompanyDuckDuckGoData(companyName = '') {
-    // https://api.duckduckgo.com/?q=DuckDuckGo&format=json&pretty=1
-    const request = api.get(`https://api.duckduckgo.com/?q=${companyName}&format=json`);
-
-    return dispatch => request
-        .then(({ data }) => data)
-        .catch(err => {
-            dispatch({
-                type: ACTIONTYPES.FETCH_COMPANY_DUCKDUCKGO_DATA_FAIL,
                 payload: err
             });
             return null;

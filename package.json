@@ -1,6 +1,6 @@
 {
-  "name": "second-measure-project",
-  "version": "0.1.0",
+  "name": "company-search",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "3.9.0",

@@ -61,7 +61,7 @@ class App extends Component {
 	 */
 	handleInputChange = ({ target: { value } }) => {
 		this.setState({
-			searchValue: value,
+			searchValue: value.trim(),
 			inputTouched: true
 		});
 	}
